@@ -2,30 +2,36 @@
 
 This package offers a few utilities that enable fast and accurate pre-processing of Feature Barcoding experiments, a common datatype in single-cell genomics. In Feature Barcoding assays, cellular data are recorded as short DNA sequences using procedures adapted from single-cell RNA-seq. 
 
-The __kite ("kallisto indexing and tag extraction__") package is used to prepare input files for Feature Barcoding experiments prior to running the kallisto | bustools scRNA-seq pipeline. Starting with a Python dictionary of Feature Barcode names and Feature Barcode sequences, the function `kite_mismatch_maps` produces a "mismatch map" and outputs "mismatch" fasta and transcript-to-gene (t2g) files. The mismatch files, containing the Feature Barcode sequences and their Hamming distance = 1 mismatches, are required for kallisto | bus. 
+The __kite ("kallisto indexing and tag extraction__") package is used to prepare input files for Feature Barcoding experiments prior to running the kallisto | bustools scRNA-seq pipeline. Starting with a Python dictionary of Feature Barcode names and Feature Barcode sequences, the function `kite_mismatch_maps` produces a "mismatch map" and outputs "mismatch" fasta and transcript-to-gene (t2g) files. The mismatch files, containing the Feature Barcode sequences and their Hamming distance = 1 mismatches, are required to run kallisto | bustools. 
 
 The mismatch fasta file is used by `kallisto index` with a k-mer length -k equal to the length of the Feature Barcode. 
 
-After running `bustools correct` and `bustools count`, the t2g file is used by bustools count to generate a Features x Cells matrix. In this way, kallisto | bustools will effectively search the sequencing data for the Feature Barcodes and their Hamming distance = 1 neighbors. We find that for Feature Barcodes of moderate length (6-15bp) pre-processing is remarkably fast and the results equivalent to or better than those from traditional alignment.
+After running `bustools correct` and `bustools sort`, the t2g file is used by `bustools count` to generate a Features x Cells matrix. In this way, kallisto | bustools will effectively search the sequencing data for the Feature Barcodes and their Hamming distance = 1 neighbors. We find that for Feature Barcodes of moderate length (6-15bp) pre-processing is remarkably fast and the results equivalent to or better than those from traditional alignment.
 
 The Vignettes directory [https://github.com/pachterlab/kite/tree/master/docs/Vignettes] contains Python notebooks with complete examples for 10X and CITE-seq data. They show how to use kite, kallisto | bustools, and ScanPy to perform a complete feature barcoding analysis, and the results are compared with CellRanger. 
 
-NOTE: To avoid potential pseudoalignment errors arising from inverted repeats, kallisto requires odd values for the k-mer length k.If your Feature Barcodes have an even length, just add a constant base one side and follow the protocol as suggested. 
+NOTE: To avoid potential pseudoalignment errors arising from inverted repeats, kallisto requires odd values for the k-mer length k. If your Feature Barcodes have an even length, just add an appropriate constant base one side and follow the protocol as suggested. Adding constant bases in this way increases specificity and may be useful for experiments with low sequencing quality or very short Feature Barcodes. 
 
 ## kite Utilities
 
-#### `kite_mismatch_maps(dict, mismatch_t2g_path, mismatch_fasta_path`
-This wrapper function is the easiest way to use `kite`. Just input a Python dictionary, and `kite_mismatch_map` will output a "mismatch" t2g file and a "mismatch" fasta file. These files are used by kallisto | bustools to complete pre-processing(see above and Vignettes).
+#### `kite_mismatch_maps(dict, mismatch_t2g_path, mismatch_fasta_path)`
+This wrapper function is the easiest way to use `kite`. "Mismatch" t2g and fasta files are used by kallisto | bustools to complete pre-processing(see below and Vignettes).
 
-#### `make_mismatch_map(filename)`
+dict: a Python dictionary with Feature Barcode name : Feature Barcode sequence as key:value pairs
+mismatch_t2g_path: filepath for a new "mismatch" t2g file 
+mismatch_fasta_path: filepath for a new "mismatch" fasta file
 
-This function returns all sample tags and and their single base mismatches (hamming distance 1) as an OrderedDict object. The size of the object is (k=the length of the Feature Barocdes)*(3=altnerative base pairs for each base)*(N=number of Feature Barocdes) + (N=number of Feature Barcode sequences). For the 10x example dataset, 17 Feature Barcodes of length k=15 are used. These yield 15*3*17+17=782
+#### `make_mismatch_map(dict)`
+This function returns all sample tags and and their single base mismatches (hamming distance 1) as an OrderedDict object. The number of elements in the object is (k=the length of the Feature Barocdes)*(3=altnerative base pairs for each base)*(N=number of Feature Barocdes) + (N=number of Feature Barcode sequences). For the 10x example dataset, 17 Feature Barcodes of length k=15 are used. These yield 15x3x17+17=782 entries in the OrderedDict object. 
 
+dict: a Python dictionary with Feature Barcode name : Feature Barcode sequence as key:value pairs
 
-#### `write_mismatch_map(tag_map, tagmap_t2g_path, tagmap_fasta_path)`
-
+#### `write_mismatch_map(tag_map, mismatch_t2g_path, mismatch_fasta_path)`
 Saves the OrderedDict generated by `make_mismatch_map` (tag_map) to file in fasta and t2g formats for building the kallisto index and running bustools count, respectively.
 
+tag_map: OrderedDict object produced by `make_mismatch_map`
+mismatch_t2g_path: filepath for a new "mismatch" t2g file 
+mismatch_fasta_path: filepath for a new "mismatch" fasta file\
 
 
 ## Example: 1k PBMCs from a Healthy Donor - Gene Expression and Cell Surface Protein
