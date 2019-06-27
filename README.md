@@ -6,9 +6,7 @@ The __kite ("kallisto indexing and tag extraction__") package is used to prepare
 
 The mismatch fasta file is used by `kallisto index` with a k-mer length -k equal to the length of the Feature Barcode. 
 
-`show it`
-
-Later, the t2g file is used by bustools count to generate a Features x Cells matrix. In this way, kallisto | bustools will effectively search the sequencing data for the Feature Barcodes and their Hamming distance = 1 neighbors. We find that for Feature Barcodes of moderate length (6-15bp) pre-processing is remarkably fast and the results equivalent to or better than those from traditional alignment.
+After running `bustools correct` and `bustools count`, the t2g file is used by bustools count to generate a Features x Cells matrix. In this way, kallisto | bustools will effectively search the sequencing data for the Feature Barcodes and their Hamming distance = 1 neighbors. We find that for Feature Barcodes of moderate length (6-15bp) pre-processing is remarkably fast and the results equivalent to or better than those from traditional alignment.
 
 The Vignettes directory [https://github.com/pachterlab/kite/tree/master/docs/Vignettes] contains Python notebooks with complete examples for 10X and CITE-seq data. They show how to use kite, kallisto | bustools, and ScanPy to perform a complete feature barcoding analysis, and the results are compared with CellRanger. 
 
