@@ -6,7 +6,7 @@ from collections import OrderedDict
 def make_mismatch_map(FeatureDict):
     odict = OrderedDict()
     counter=0
-    for item in input_tags:
+    for item in FeatureDict:
         name=(item)
         seq=tags[item]
         if counter == 0:
