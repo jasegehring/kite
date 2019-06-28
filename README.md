@@ -28,7 +28,7 @@ kallisto 0.46 or higher
 bustools 0.39.0 or higher
 ```
 
-For downstream analysis, we use [ScanPy](https://scanpy.readthedocs.io/en/stable/installation.html) and the [LeidenAlg](https://github.com/vtraag/leidenalg) clustering package.
+For downstream analysis, we use [ScanPy](https://scanpy.readthedocs.io/en/stable/installation.html) (Wolf et. al, Genome Biology 2018) and the [LeidenAlg](https://github.com/vtraag/leidenalg) clustering package (Traag et. al, arXiv 2018).
 
 ## kite Utilities
 
