@@ -45,6 +45,14 @@ The notebook [kite_citeseq_SRR8281307](https://github.com/pachterlab/kite/blob/m
 
 The following is an abbreviated walk-through.  
 
+First, navigate to a new directory and download the required 10x files including the Feature Barcode whitelist, the 10x 3M-cell barcode whitelist, and the raw fastqs from both lanes used in this experiment. See notebook for example. 
+./pbmc_1k_protein_v3_feature_ref.csv
+./3M-february-2018.txt
+./pbmc_1k_protein_v3_antibody_S2_L001_R1_001.fastq.gz
+./pbmc_1k_protein_v3_antibody_S2_L001_R2_001.fastq.gz
+./pbmc_1k_protein_v3_antibody_S2_L002_R1_001.fastq.gz
+./pbmc_1k_protein_v3_antibody_S2_L002_R2_001.fastq.gz
+
 We start with a Python dictionary containing Feature Barcode names and Feature Barcode sequences as key:value pairs. 
 ```
 feature_barcodes={'CD3_TotalSeqB': 'AACAAGACCCTTGAG',
@@ -69,7 +77,7 @@ The kite_mismatch_maps function takes the Python dictionary (featurebarcodes) an
 
 ```
 import kite
-kite.kITE_mismatch_maps(featurebarcodes, './t2g_path.t2g', 'fasta_path.fa')
+kite.kITE_mismatch_maps(featurebarcodes, './t2g_path.t2g', './fasta_path.fa')
 ```
 
 Feature Barcode processing is similar to processing transcripts except instead of looking for transcript fragments of length `k` (the `k-mer` length) in the reads, a "mismatch" index is used to search the raw reads for the Feature Barcode whitelist and mismatch sequences. Please refer to the kallisto documentation for more information on the kallisto | bustools workflow. 
@@ -78,7 +86,7 @@ https://www.kallistobus.tools/documentation
 Because Feature Barcodes are typically designed to be robust to some sequencing errors, each Feature Barcode and its mismatches are unique across an experiment, thus each Feature Barcode equivalence class has a one-to-one correspondence to a member of the Feature Barcode whitelist. This is reflected in the t2g file, where each mismatch Feature Barcode points to a unique parent Feature Barcode from the whitelist, analogous to the relationship between genes and transcripts in the case of cDNA processing. 
 
 ```
-!head -4 t2g_path.t2g
+!head -4 ./t2g_path.t2g
 CD3_TotalSeqB	CD3_TotalSeqB	CD3_TotalSeqB
 CD3_TotalSeqB-0-1	CD3_TotalSeqB	CD3_TotalSeqB
 CD3_TotalSeqB-0-2	CD3_TotalSeqB	CD3_TotalSeqB
@@ -95,10 +103,10 @@ GACAAGACCCTTGAG
 CACAAGACCCTTGAG
 ```
 
-The mismatch fasta is used to run `kallisto index`, and `kallisto inspect` can be used to view index information. 
+The mismatch fasta is used to run `kallisto index`, and you can use `kallisto inspect` to view index information. 
 
 ```
-!kallisto index -i {index_path}.idx -k 15 {fasta_path}
+!kallisto index -i ./index_path.idx -k 15 ./fasta_path.fa
 [build] loading fasta file /home/jgehring/scRNAseq/kITE/10xTest/10xFeaturesMismatch.fa
 [build] k-mer length: 15
 [build] counting k-mers ... done.
@@ -110,20 +118,20 @@ The mismatch fasta is used to run `kallisto index`, and `kallisto inspect` can b
 Next, `kallisto bus` and `bustools` are used without modifications. 
 
 ```
-kallisto bus -i {index_path}.idx -o {write_folder} -x 10xv3 -t 4 \
-'.pbmc_1k_protein_v3_antibody_S2_L001_R1_001.fastq.gz' \
-'.pbmc_1k_protein_v3_antibody_S2_L001_R2_001.fastq.gz' \
-'.pbmc_1k_protein_v3_antibody_S2_L002_R1_001.fastq.gz' \
-'.pbmc_1k_protein_v3_antibody_S2_L002_R2_001.fastq.gz' \
+!kallisto bus -i ./index_path.idx -o ./ -x 10xv3 -t 4 \
+./pbmc_1k_protein_v3_antibody_S2_L001_R1_001.fastq.gz \
+./pbmc_1k_protein_v3_antibody_S2_L001_R2_001.fastq.gz \
+./pbmc_1k_protein_v3_antibody_S2_L002_R1_001.fastq.gz \
+./pbmc_1k_protein_v3_antibody_S2_L002_R2_001.fastq.gz \
 ```
 
 We now have a BUS file for this pseudoalignment. The file 3M-february-2018.txt is a whitelist for 10x v3 experiments. 
 ```
-!bustools correct -w ./10xwhitelist/CRwhitelist/3M-february-2018.txt './output.bus' -o ./output_corrected.bus'
+!bustools correct -w ./3M-february-2018.txt ./output.bus -o ./output_corrected.bus
 
-!bustools sort -t 4 -o './output_sorted.bus' './output_corrected.bus'
+!bustools sort -t 4 -o ./output_sorted.bus ./output_corrected.bus
 
-!bustools count -o ./ --genecounts -g './t2g_path.t2g' -e './matrix.ec' -t './transcripts.txt' './output_sorted.bus'
+!bustools count -o ./ --genecounts -g ./t2g_path.t2g -e ./matrix.ec -t ./transcripts.txt ./output_sorted.bus
 
 ```
 
