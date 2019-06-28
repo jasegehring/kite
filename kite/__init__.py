@@ -53,8 +53,8 @@ def make_mismatch_map(FeatureDict):
 
 
 def write_mismatch_map(tag_map, mismatch_t2g_path, mismatch_fasta_path):
-    tagmap_file = open(tagmap_file_path, "w+")
-    tagmap_fasta = open(tagmap_fasta_path, "w+")
+    tagmap_file = open(mismatch_t2g_path, "w+")
+    tagmap_fasta = open(mismatch_fasta_path, "w+")
     for i in list(tag_map.keys()):
         if i[-4:]=='-*-*':
             #print(i[:-4]+'\t'+i[:-4]+'\t'+i[:-4])
