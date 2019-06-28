@@ -52,7 +52,7 @@ def make_mismatch_map(FeatureDict):
     return odict
 
 
-def write_files(tag_map, mismatch_t2g_path, mismatch_fasta_path):
+def write_mismatch_map(tag_map, mismatch_t2g_path, mismatch_fasta_path):
     tagmap_file = open(tagmap_file_path, "w+")
     tagmap_fasta = open(tagmap_fasta_path, "w+")
     for i in list(tag_map.keys()):
@@ -69,4 +69,4 @@ def write_files(tag_map, mismatch_t2g_path, mismatch_fasta_path):
     
 
 def kite_mismatch_maps(FeatureDict, mismatch_t2g_path, mismatch_fasta_path):
-    write_files(parse_tags(get_tags(FeatureDict)), mismatch_file_path, mismatch_fasta_path)
+    write_mismatch_map(make_mismatch_map(FeatureDict), mismatch_file_path, mismatch_fasta_path)
