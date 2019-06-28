@@ -71,3 +71,4 @@ def write_mismatch_map(tag_map, mismatch_t2g_path, mismatch_fasta_path):
 
 def kite_mismatch_maps(FeatureDict, mismatch_t2g_path, mismatch_fasta_path):
     write_mismatch_map(make_mismatch_map(FeatureDict), mismatch_t2g_path, mismatch_fasta_path)
+    print("The t2g and fasta files are now ready")
