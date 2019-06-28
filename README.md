@@ -1,12 +1,12 @@
 # _kite_: kallisto indexing and tag extraction
 
-This package offers a few utilities that enable fast and accurate pre-processing of Feature Barcoding experiments, a common datatype in single-cell genomics. In Feature Barcoding assays, cellular data are recorded as short DNA sequences using procedures adapted from single-cell RNA-seq. 
+This package offers utilities that enable fast and accurate pre-processing of Feature Barcoding experiments, a common datatype in single-cell genomics. In Feature Barcoding assays, cellular data are recorded as short DNA sequences using procedures adapted from single-cell RNA-seq. 
 
-The __kite ("kallisto indexing and tag extraction__") package is used to prepare input files for Feature Barcoding experiments prior to running the kallisto | bustools scRNA-seq pipeline. Starting with a Python dictionary of Feature Barcode names and Feature Barcode sequences, the function `kite_mismatch_maps` produces a "mismatch map" and outputs "mismatch" fasta and transcript-to-gene (t2g) files. The mismatch files, containing the Feature Barcode sequences and their Hamming distance = 1 mismatches, are used to run kallisto | bustools on Feature Barcoding Data. 
+The __kite ("kallisto indexing and tag extraction__") package is used to prepare input files for Feature Barcoding experiments prior to running the [kallisto | bustools scRNA-seq pipeline](https://www.kallistobus.tools/getting_started.html). Starting with a Python dictionary of Feature Barcode names and Feature Barcode sequences, the function `kite_mismatch_maps` produces a "mismatch map" and outputs "mismatch" fasta and "mismatch" transcript-to-gene (t2g) files. The mismatch files, containing the Feature Barcode sequences and their Hamming distance = 1 mismatches, are used to run kallisto | bustools on Feature Barcoding Data. 
 
 The mismatch fasta file is used by `kallisto index` with a k-mer length -k equal to the length of the Feature Barcode. 
 
-The t2g file is used by `bustools count` to generate a Features x Cells matrix. 
+The mismatch t2g file is used by `bustools count` to generate a Features x Cells matrix. 
 
 In this way, kallisto | bustools will effectively search the sequencing data for the Feature Barcodes and their Hamming distance = 1 neighbors. We find that for Feature Barcodes of moderate length (6-15bp) pre-processing is remarkably fast and the results equivalent to or better than those from traditional alignment.
 
