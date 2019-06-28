@@ -1,7 +1,8 @@
 import os
 from collections import OrderedDict
 
-
+def version():
+    print("0.0.1")
 
 def make_mismatch_map(FeatureDict):
     odict = OrderedDict()
