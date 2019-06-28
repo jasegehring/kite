@@ -59,11 +59,11 @@ The following is an abbreviated walk-through showing key steps.
 
 ### System Requirements
 
-'''
+```
 kite 0.0.1
 kallisto 0.46
 bustools 0.39.0 or higher
-'''
+```
 
 For downstream analysis, we use [ScanPy](https://scanpy.readthedocs.io/en/stable/installation.html) and the [LeidenAlg](https://github.com/vtraag/leidenalg) clustering package.
 
