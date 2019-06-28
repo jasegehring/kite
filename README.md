@@ -68,7 +68,8 @@ The following is an abbreviated walk-through showing key steps.
 
 ### Download Required Files
 
-Navigate to a new directory and download 10x data with wget. Unzip the `pbmc_1k_protein_v3_fastqs` directory.
+Navigate to a new directory and download 10x data with wget. Unzip files as shown.
+The 10x 3M-february 2018 cell barcode whitelist is included with this GitHub repo [here](https://github.com/jgehringUCB/kite/blob/master/docs/3M-february-2018.txt.gz).
 ```
 $wget http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_fastqs.tar
 $tar -xvf ./pbmc_1k_protein_v3_fastqs.tar
@@ -77,12 +78,12 @@ $wget http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1
 $!tar xvzf ./pbmc_1k_protein_v3_filtered_feature_bc_matrix.tar.gz
 ```
 
-The directory now includes the raw fastqs, the Feature Barcode whitelist reference, the 10x 3M-february-2018 barcode whitelist, and the CellRanger Features x Cells matrix. See notebook for example. 
+The directory now includes the raw fastqs, the Feature Barcode whitelist reference, the 10x 3M-february-2018 cell barcode whitelist, and the CellRanger Features x Cells matrix. See notebook for example. 
 ```
 pbmc_1k_protein_v3_fastqs/
 pbmc_1k_protein_v3_feature_ref.csv
 3M-february-2018.txt
-pbmc_1k_protein_v3_filtered_feature_bc_matrix/
+filtered_feature_bc_matrix/
 ```
 
 We start by making a Python dictionary containing Feature Barcode names and Feature Barcode sequences as key:value pairs. Code to generate this dictionary from the 10x `pbmc_1k_protein_v3_feature_ref.csv` is provided with the iPython notebook in the [docs](https://github.com/pachterlab/kite/tree/master/docs/) folder. 
