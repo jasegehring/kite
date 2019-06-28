@@ -12,6 +12,13 @@ The Vignettes directory [https://github.com/pachterlab/kite/tree/master/docs/Vig
 
 NOTE: To avoid potential pseudoalignment errors arising from inverted repeats, kallisto requires odd values for the k-mer length k. If your Feature Barcodes have an even length, just add an appropriate constant base one side and follow the protocol as suggested. Adding constant bases in this way increases specificity and may be useful for experiments with low sequencing quality or very short Feature Barcodes. 
 
+## kite Installation
+Clone the GitHub repo and use pip to install the kite package
+!mkdir ./FeatureBarcoding
+!cd ./FeatureBarcoding
+!git clone https://github.com/pachterlab/kite
+!pip install -e ./kite
+
 ## kite Utilities
 
 #### `kite_mismatch_maps(FeatureDict, mismatch_t2g_path, mismatch_fasta_path)`
