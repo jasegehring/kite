@@ -14,19 +14,19 @@ NOTE: To avoid potential pseudoalignment errors arising from inverted repeats, k
 
 ## kite Utilities
 
-#### `kite_mismatch_maps(dict, mismatch_t2g_path, mismatch_fasta_path)`
+#### `kite_mismatch_maps(FeatureDict, mismatch_t2g_path, mismatch_fasta_path)`
 This wrapper function is the easiest way to use `kite`. "Mismatch" t2g and fasta files are saved and can be used by kallisto | bustools to complete pre-processing(see below and Vignettes).
 
-dict: a Python dictionary with Feature Barcode name : Feature Barcode sequence as key:value pairs
+FeatureDict: a Python dictionary with Feature Barcode name : Feature Barcode sequence as key:value pairs
 mismatch_t2g_path: filepath for a new "mismatch" t2g file 
 mismatch_fasta_path: filepath for a new "mismatch" fasta file
 
 returns mismatch t2g and fasta files to the specified directories
 
-#### `make_mismatch_map(dict)`
+#### `make_mismatch_map(FeatureDict)`
 This function returns all sample tags and and their single base mismatches (hamming distance 1) as an OrderedDict object. The number of elements in the object is (k=the length of the Feature Barocdes)*(3=altnerative base pairs for each base)*(N=number of Feature Barocdes) + (N=number of Feature Barcode sequences). For the 10x example dataset, 17 Feature Barcodes of length k=15 are used. These yield 15x3x17+17=782 entries in the OrderedDict object. 
 
-dict: a Python dictionary with Feature Barcode name : Feature Barcode sequence as key:value pairs
+FeatureDict: a Python dictionary with Feature Barcode name : Feature Barcode sequence as key:value pairs
 
 returns an OrderedDict object including correct and mismatch sequences for each whitelist Feature Barcode
 
