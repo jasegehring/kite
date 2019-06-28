@@ -4,7 +4,7 @@ This package offers utilities that enable fast and accurate pre-processing of Fe
 
 The __kite ("kallisto indexing and tag extraction__") package is used to prepare input files for Feature Barcoding experiments prior to running the [kallisto | bustools](https://www.kallistobus.tools/getting_started.html) scRNA-seq pipeline. Starting with a Python dictionary of Feature Barcode names and Feature Barcode sequences, the function `kite_mismatch_maps` produces a "mismatch map" and outputs "mismatch" fasta and "mismatch" transcript-to-gene (t2g) files. The mismatch files, containing the Feature Barcode sequences and their Hamming distance = 1 mismatches, are used to run kallisto | bustools on Feature Barcoding data. 
 
-The mismatch fasta file is used by `kallisto index` with a k-mer length `-k` equal to the length of the Feature Barcode. 
+The mismatch fasta file is used by `kallisto index` with a k-mer length `-k` set to the length of the Feature Barcode. 
 
 The mismatch t2g file is used by `bustools count` to generate a Features x Cells matrix. 
 
