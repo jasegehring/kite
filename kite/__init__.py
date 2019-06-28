@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 
 
-def parse_tags(input_tags):
+def make_mismatch_map(FeatureDict):
     odict = OrderedDict()
     counter=0
     for item in input_tags:
@@ -52,7 +52,7 @@ def parse_tags(input_tags):
     return odict
 
 
-def write_files(tag_map, tagmap_file_path, tagmap_fasta_path):
+def write_files(tag_map, mismatch_t2g_path, mismatch_fasta_path):
     tagmap_file = open(tagmap_file_path, "w+")
     tagmap_fasta = open(tagmap_fasta_path, "w+")
     for i in list(tag_map.keys()):
