@@ -20,6 +20,15 @@ Clone the GitHub repo and use pip to install the kite package
 !git clone https://github.com/pachterlab/kite
 !pip install -e ./kite
 ```
+## System Requirements
+Feature Barcode pre-processing requires `kite` as well as up-to-date versions of `kallisto` and `bustools`
+```
+kite 0.0.1
+kallisto 0.46 or higher
+bustools 0.39.0 or higher
+```
+
+For downstream analysis, we use [ScanPy](https://scanpy.readthedocs.io/en/stable/installation.html) and the [LeidenAlg](https://github.com/vtraag/leidenalg) clustering package.
 
 ## kite Utilities
 
@@ -56,16 +65,6 @@ returns mismatch t2g and fasta files to the specified directories
 The [docs](https://github.com/jgehringUCB/kite/tree/master/docs) folder contains a complete analysis ([10x_kiteVignette.ipynb](https://github.com/jgehringUCB/kite/tree/master/docs/10X_kiteVignette.ipynb)) for a 10x dataset collected on ~730 peripheral blood mononuclear cells (PBMCs) labeled with 17 unique Feature Barcoded antibodies. The dataset can be found [here](https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_1k_protein_v3).
 
 The following is an abbreviated walk-through showing key steps.  
-
-### System Requirements
-
-```
-kite 0.0.1
-kallisto 0.46
-bustools 0.39.0 or higher
-```
-
-For downstream analysis, we use [ScanPy](https://scanpy.readthedocs.io/en/stable/installation.html) and the [LeidenAlg](https://github.com/vtraag/leidenalg) clustering package.
 
 ### Download Required Files
 
