@@ -1,6 +1,5 @@
-from collections import OrderedDict
-from Bio import SeqIO
 import os
+from collections import OrderedDict
 
 
 
@@ -69,5 +68,5 @@ def write_files(tag_map, tagmap_file_path, tagmap_fasta_path):
     tagmap_fasta.close()
     
 
-def kite_mismatch_maps(input_Features, mismatch_file_path, mismatch_fasta_path):
-    write_files(parse_tags(get_tags(input_Features)), mismatch_file_path, mismatch_fasta_path)
+def kite_mismatch_maps(FeatureDict, mismatch_t2g_path, mismatch_fasta_path):
+    write_files(parse_tags(get_tags(FeatureDict)), mismatch_file_path, mismatch_fasta_path)
