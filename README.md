@@ -2,15 +2,15 @@
 
 This package offers a few utilities that enable fast and accurate pre-processing of Feature Barcoding experiments, a common datatype in single-cell genomics. In Feature Barcoding assays, cellular data are recorded as short DNA sequences using procedures adapted from single-cell RNA-seq. 
 
-The __kite ("kallisto indexing and tag extraction__") package is used to prepare input files for Feature Barcoding experiments prior to running the kallisto | bustools scRNA-seq pipeline. Starting with a Python dictionary of Feature Barcode names and Feature Barcode sequences, the function `kite_mismatch_maps` produces a "mismatch map" and outputs "mismatch" fasta and transcript-to-gene (t2g) files. The mismatch files, containing the Feature Barcode sequences and their Hamming distance = 1 mismatches, are required to run kallisto | bustools. 
+The __kite ("kallisto indexing and tag extraction__") package is used to prepare input files for Feature Barcoding experiments prior to running the kallisto | bustools scRNA-seq pipeline. Starting with a Python dictionary of Feature Barcode names and Feature Barcode sequences, the function `kite_mismatch_maps` produces a "mismatch map" and outputs "mismatch" fasta and transcript-to-gene (t2g) files. The mismatch files, containing the Feature Barcode sequences and their Hamming distance = 1 mismatches, are used to run kallisto | bustools on Feature Barcoding Data. 
 
 The mismatch fasta file is used by `kallisto index` with a k-mer length -k equal to the length of the Feature Barcode. 
 
-After running `bustools correct` and `bustools sort`, the t2g file is used by `bustools count` to generate a Features x Cells matrix. In this way, kallisto | bustools will effectively search the sequencing data for the Feature Barcodes and their Hamming distance = 1 neighbors. We find that for Feature Barcodes of moderate length (6-15bp) pre-processing is remarkably fast and the results equivalent to or better than those from traditional alignment.
+The t2g file is used by `bustools count` to generate a Features x Cells matrix. 
 
-The [Vignettes directory](https://github.com/pachterlab/kite/tree/master/docs/Vignettes) contains Python notebooks with complete examples for 10X and CITE-seq data. They show how to use kite, kallisto | bustools, and ScanPy to perform a complete feature barcoding analysis, and the results are compared with CellRanger. 
+In this way, kallisto | bustools will effectively search the sequencing data for the Feature Barcodes and their Hamming distance = 1 neighbors. We find that for Feature Barcodes of moderate length (6-15bp) pre-processing is remarkably fast and the results equivalent to or better than those from traditional alignment.
 
-NOTE: To avoid potential pseudoalignment errors arising from inverted repeats, kallisto requires odd values for the k-mer length k. If your Feature Barcodes have an even length, just add an appropriate constant base one side and follow the protocol as suggested. Adding constant bases in this way increases specificity and may be useful for experiments with low sequencing quality or very short Feature Barcodes. 
+The [Vignettes directory](https://github.com/pachterlab/kite/tree/master/docs/Vignettes) contains an example Python notebook that uses `kite`, `kallisto`, `bustools`, and `ScanPy` to perform a complete feature barcoding analysis, and the results are compared with CellRanger. 
 
 ## kite Installation
 Clone the GitHub repo and use pip to install the kite package
@@ -48,11 +48,34 @@ mismatch_fasta_path: filepath for a new "mismatch" fasta file
 
 returns mismatch t2g and fasta files to the specified directories
 
-## Example: 1k PBMCs from a Healthy Donor - Gene Expression and Cell Surface Protein
+## NOTE: Use only odd values for k-mer length during `kallisto index` 
+To avoid potential pseudoalignment errors arising from inverted repeats, kallisto requires odd values for the k-mer length k. If your Feature Barcodes have an even length, just add an appropriate constant base one side and follow the protocol as suggested. Adding constant bases in this way increases specificity and may be useful for experiments with low sequencing quality or very short Feature Barcodes. 
 
-The notebook [10x_kiteVignette](https://github.com/jgehringUCB/kite/tree/master/docs/Vignettes) in the `docs` folder demonstrates a complete analysis for a 10x dataset collected on 730 peripheral blood mononuclear cells (PBMCs) labeled with 17 unique Feature Barcoded antibodies. The dataset can be found [here](https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_1k_protein_v3).
+## Brief Example: 1k PBMCs from a Healthy Donor - Gene Expression and Cell Surface Protein
+
+The notebook [docs folder](https://github.com/jgehringUCB/kite/tree/master/docs) contains a complete analysis (10x_kiteVignette.ipynb) for a 10x dataset collected on 730 peripheral blood mononuclear cells (PBMCs) labeled with 17 unique Feature Barcoded antibodies. The dataset can be found [here](https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_1k_protein_v3).
 
 The following is an abbreviated walk-through.  
+
+### System Requirements
+
+'''
+kite 0.0.1
+kallisto 0.46
+bustools 0.39.1
+'''
+
+For downstream analysis, we use [ScanPy](https://scanpy.readthedocs.io/en/stable/installation.html) and the [LeidenAlg](https://github.com/vtraag/leidenalg) clustering package.
+
+### Download Required Files
+
+This walk-through requires a number of files from 10x that can be downloaded with wget.
+```
+$wget http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_fastqs.tar
+$tar -xvf ./pbmc_1k_protein_v3_fastqs.tar
+$wget http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_feature_ref.csv
+$wget http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_filtered_feature_bc_matrix.tar.gz
+```
 
 First, navigate to a new directory and download the required 10x files including the Feature Barcode whitelist reference, the 10x 3M-february-2018 barcode whitelist, and the raw fastqs from both lanes used in this experiment. See notebook for example. 
 ```
