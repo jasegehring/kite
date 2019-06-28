@@ -49,13 +49,13 @@ mismatch_fasta_path: filepath for a new "mismatch" fasta file
 returns mismatch t2g and fasta files to the specified directories
 
 ## NOTE: Use only odd values for k-mer length during `kallisto index` 
-To avoid potential pseudoalignment errors arising from inverted repeats, kallisto requires odd values for the k-mer length k. If your Feature Barcodes have an even length, just add an appropriate constant base one side and follow the protocol as suggested. Adding constant bases in this way increases specificity and may be useful for experiments with low sequencing quality or very short Feature Barcodes. 
+To avoid potential pseudoalignment errors arising from inverted repeats, kallisto only accepts odd values for the k-mer length `-k`. If your Feature Barcodes have an even length, just add an appropriate constant base on one side and follow the protocol as suggested. Adding constant bases in this way increases specificity and may be useful for experiments with low sequencing quality or very short Feature Barcodes. 
 
 ## Brief Example: 1k PBMCs from a Healthy Donor - Gene Expression and Cell Surface Protein
 
-The notebook [docs folder](https://github.com/jgehringUCB/kite/tree/master/docs) contains a complete analysis (10x_kiteVignette.ipynb) for a 10x dataset collected on 730 peripheral blood mononuclear cells (PBMCs) labeled with 17 unique Feature Barcoded antibodies. The dataset can be found [here](https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_1k_protein_v3).
+The [docs](https://github.com/jgehringUCB/kite/tree/master/docs) folder contains a complete analysis (10x_kiteVignette.ipynb) for a 10x dataset collected on ~730 peripheral blood mononuclear cells (PBMCs) labeled with 17 unique Feature Barcoded antibodies. The dataset can be found [here](https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_1k_protein_v3).
 
-The following is an abbreviated walk-through.  
+The following is an abbreviated walk-through showing key steps.  
 
 ### System Requirements
 
@@ -69,7 +69,7 @@ For downstream analysis, we use [ScanPy](https://scanpy.readthedocs.io/en/stable
 
 ### Download Required Files
 
-This walk-through requires a number of files from 10x that can be downloaded with wget.
+Navigate ta new directory and download 10x data with wget. Unzip the `pbmc_1k_protein_v3_fastqs` directory.
 ```
 $wget http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_fastqs.tar
 $tar -xvf ./pbmc_1k_protein_v3_fastqs.tar
@@ -77,17 +77,14 @@ $wget http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1
 $wget http://cf.10xgenomics.com/samples/cell-exp/3.0.0/pbmc_1k_protein_v3/pbmc_1k_protein_v3_filtered_feature_bc_matrix.tar.gz
 ```
 
-First, navigate to a new directory and download the required 10x files including the Feature Barcode whitelist reference, the 10x 3M-february-2018 barcode whitelist, and the raw fastqs from both lanes used in this experiment. See notebook for example. 
+Navigate to a new directory and download the required 10x files including the Feature Barcode whitelist reference, the 10x 3M-february-2018 barcode whitelist, and the raw fastqs from both lanes used in this experiment. See notebook for example. 
 ```
 ./pbmc_1k_protein_v3_feature_ref.csv
 ./3M-february-2018.txt
-./pbmc_1k_protein_v3_antibody_S2_L001_R1_001.fastq.gz
-./pbmc_1k_protein_v3_antibody_S2_L001_R2_001.fastq.gz
-./pbmc_1k_protein_v3_antibody_S2_L002_R1_001.fastq.gz
-./pbmc_1k_protein_v3_antibody_S2_L002_R2_001.fastq.gz
+./pbmc_1k_protein_v3_fastqs/
 ```
 
-We start with a Python dictionary containing Feature Barcode names and Feature Barcode sequences as key:value pairs. 
+We start with a Python dictionary containing Feature Barcode names and Feature Barcode sequences as key:value pairs. Code to generate this dictionary from the 10x `pbmc_1k_protein_v3_feature_ref.csv` is provided with the iPython notebook in the [docs](https://github.com/pachterlab/kite/tree/master/docs/) folder. 
 ```
 feature_barcodes={'CD3_TotalSeqB': 'AACAAGACCCTTGAG',
  'CD4_TotalSeqB': 'TACCCGTAATAGCGT',
@@ -114,7 +111,7 @@ import kite
 kite.kite_mismatch_maps(featurebarcodes, './t2g_path.t2g', './fasta_path.fa')
 ```
 
-Feature Barcode processing is similar to processing transcripts except instead of looking for transcript fragments of length `k` (the `k-mer` length) in the reads, a "mismatch" index is used to search the raw reads for the Feature Barcode whitelist and mismatch sequences. Please refer to the [kallisto documentation](https://www.kallistobus.tools/documentation) for more information on the kallisto | bustools workflow. 
+Feature Barcode processing is similar to processing transcripts except instead of looking for transcript fragments of length `-k` (the k-mer length) in the reads, a "mismatch" index is used to search the raw reads for the Feature Barcode whitelist and mismatch sequences. Please refer to the [kallisto documentation](https://www.kallistobus.tools/documentation) for more information on the kallisto | bustools workflow. 
 
 Because Feature Barcodes are typically designed to be robust to some sequencing errors, each Feature Barcode and its mismatches are unique across an experiment, thus each Feature Barcode equivalence class has a one-to-one correspondence to a member of the Feature Barcode whitelist. This is reflected in the t2g file, where each mismatch Feature Barcode points to a unique parent Feature Barcode from the whitelist, analogous to the relationship between genes and transcripts in the case of cDNA processing. 
 
