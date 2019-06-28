@@ -14,10 +14,12 @@ NOTE: To avoid potential pseudoalignment errors arising from inverted repeats, k
 
 ## kite Installation
 Clone the GitHub repo and use pip to install the kite package
+```
 !mkdir ./FeatureBarcoding
 !cd ./FeatureBarcoding
 !git clone https://github.com/pachterlab/kite
 !pip install -e ./kite
+```
 
 ## kite Utilities
 
