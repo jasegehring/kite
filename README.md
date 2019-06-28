@@ -10,7 +10,7 @@ The mismatch t2g file is used by `bustools count` to generate a Features x Cells
 
 In this way, kallisto | bustools will effectively search the sequencing data for the Feature Barcodes and their Hamming distance = 1 neighbors. We find that for Feature Barcodes of moderate length (6-15bp) pre-processing is remarkably fast and the results equivalent to or better than those from traditional alignment.
 
-The [Vignettes directory](https://github.com/pachterlab/kite/tree/master/docs/Vignettes) contains an example Python notebook that uses `kite`, `kallisto`, `bustools`, and `ScanPy` to perform a complete feature barcoding analysis, and the results are compared with CellRanger. 
+The [docs](https://github.com/pachterlab/kite/tree/master/docs/) directory contains an example Python notebook that uses `kite`, `kallisto`, `bustools`, and `ScanPy` to perform a complete feature barcoding analysis, and the results are compared with CellRanger. 
 
 ## kite Installation
 Clone the GitHub repo and use pip to install the kite package
