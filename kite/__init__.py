@@ -3,64 +3,71 @@ from Bio import SeqIO
 import os
 
 
-def make_mismatch_map(filename):
-    """
-    This function returns all sample tags and and their single base mismatches
-    (hamming distance 1). It returns a dictionary 4*tag_length*number_of_tags
-    the size of the original tag)
-    e.g. tags AA and TT  result in 4*2*2 = 16 tags
-    """
 
+def parse_tags(input_tags):
     odict = OrderedDict()
-    print('Read the following tags:')
-    for record in SeqIO.parse(filename, "fasta"):
-        sample_tag_length = len(record.seq)
-        if sample_tag_length%2 == 0:
-            print('Length of the following tag is even:\n',record.name, '\n', record.seq, '\n',
-                  ' kallisto needs odd k-mers. \n',
-                  'Truncate the tag by one bp or increate it by one')
-            return None
-
-        counter = 0
-        print(record.seq)
-        odict[record.name] = str(record.seq)[:sample_tag_length]
-        for pos in range(sample_tag_length):
-            letter = str(record.seq)[pos]
-            barcode = list(str(record.seq)[:+sample_tag_length])
-            if letter == 'A':
-                barcode[pos] = 'T'
-                odict[record.name + '+-+' + str(pos) + '-1'] = "".join(barcode)
-                barcode[pos] = 'G'
-                odict[record.name + '+-+' + str(pos) + '-2'] = "".join(barcode)
-                barcode[pos] = 'C'
-                odict[record.name + '+-+' + str(pos) + '-3'] = "".join(barcode)
-            elif letter == 'G':
-                barcode[pos] = 'T'
-                odict[record.name + '+-+' + str(pos) + '-1'] = "".join(barcode)
-                barcode[pos] = 'A'
-                odict[record.name + '+-+' + str(pos) + '-2'] = "".join(barcode)
-                barcode[pos] = 'C'
-                odict[record.name + '+-+' + str(pos) + '-3'] = "".join(barcode)
-            elif letter == 'C':
-                barcode[pos] = 'T'
-                odict[record.name + '+-+' + str(pos) + '-1'] = "".join(barcode)
-                barcode[pos] = 'G'
-                odict[record.name + '+-+' + str(pos) + '-2'] = "".join(barcode)
-                barcode[pos] = 'A'
-                odict[record.name + '+-+' + str(pos) + '-3'] = "".join(barcode)
+    counter=0
+    for item in input_tags:
+        name=(item)
+        seq=tags[item]
+        if counter == 0:
+            feature_barcode_length = len(seq)
+            print("Feature Barcode Length: "+str(feature_barcode_length)+'\n')
+            print('Read the following tags:')
+            counter+=1
+        print(name)
+        print(seq)
+        odict[name+'-*-*'] = str(seq)[:feature_barcode_length]
+        for pos in range(feature_barcode_length):
+            letter =str(seq)[pos]
+            barcode=list(str(seq)[:feature_barcode_length])
+            if letter=='A':
+                barcode[pos]='T'
+                odict[name+'-'+str(pos)+'-1'] = "".join(barcode)
+                barcode[pos]='G'
+                odict[name+'-'+str(pos)+'-2'] = "".join(barcode)
+                barcode[pos]='C'
+                odict[name+'-'+str(pos)+'-3'] = "".join(barcode)
+            elif letter=='G':
+                barcode[pos]='T'
+                odict[name+'-'+str(pos)+'-1'] = "".join(barcode)
+                barcode[pos]='A'
+                odict[name+'-'+str(pos)+'-2'] = "".join(barcode)
+                barcode[pos]='C'
+                odict[name+'-'+str(pos)+'-3'] = "".join(barcode)
+            elif letter=='C':
+                barcode[pos]='T'
+                odict[name+'-'+str(pos)+'-1'] = "".join(barcode)
+                barcode[pos]='G'
+                odict[name+'-'+str(pos)+'-2'] = "".join(barcode)
+                barcode[pos]='A'
+                odict[name+'-'+str(pos)+'-3'] = "".join(barcode)
             else:
-                barcode[pos] = 'A'
-                odict[record.name + '+-+' + str(pos) + '-1'] = "".join(barcode)
-                barcode[pos] = 'G'
-                odict[record.name + '+-+' + str(pos) + '-2'] = "".join(barcode)
-                barcode[pos] = 'C'
-                odict[record.name + '+-+' + str(pos) + '-3'] = "".join(barcode)
-
+                barcode[pos]='A'
+                odict[name+'-'+str(pos)+'-1'] = "".join(barcode)
+                barcode[pos]='G'
+                odict[name+'-'+str(pos)+'-2'] = "".join(barcode)
+                barcode[pos]='C'
+                odict[name+'-'+str(pos)+'-3'] = "".join(barcode)
+                
     return odict
 
 
-def save_mismatch_map(tagmap, tagmap_file_path):
+def write_files(tag_map, tagmap_file_path, tagmap_fasta_path):
     tagmap_file = open(tagmap_file_path, "w+")
+    tagmap_fasta = open(tagmap_fasta_path, "w+")
     for i in list(tag_map.keys()):
-        tagmap_file.write(">" + i + "\n" +tag_map[i] + "\n")
+        if i[-4:]=='-*-*':
+            #print(i[:-4]+'\t'+i[:-4]+'\t'+i[:-4])
+            tagmap_file.write(i[:-4]+'\t'+i[:-4]+'\t'+i[:-4]+'\n')
+            tagmap_fasta.write(">" + i[:-4] + "\n" +tag_map[i] + "\n")
+        else:
+            #print(i+'\t'+'-'.join(i.split('-')[:-2])+'\t'+'-'.join(i.split('-')[:-2]))
+            tagmap_file.write(i+'\t'+'-'.join(i.split('-')[:-2])+'\t'+'-'.join(i.split('-')[:-2])+'\n')
+            tagmap_fasta.write(">" + i + "\n" +tag_map[i] + "\n")
     tagmap_file.close()
+    tagmap_fasta.close()
+    
+
+def kite_mismatch_maps(input_Features, mismatch_file_path, mismatch_fasta_path):
+    write_files(parse_tags(get_tags(input_Features)), mismatch_file_path, mismatch_fasta_path)
