@@ -8,11 +8,11 @@ def make_mismatch_map(FeatureDict):
     counter=0
     for item in FeatureDict:
         name=(item)
-        seq=tags[item]
+        seq=FeatureDict[item]
         if counter == 0:
             feature_barcode_length = len(seq)
             print("Feature Barcode Length: "+str(feature_barcode_length)+'\n')
-            print('Read the following tags:')
+            print('Read the following Feature Barcodes:')
             counter+=1
         print(name)
         print(seq)
