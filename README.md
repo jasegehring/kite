@@ -91,8 +91,7 @@ import kite
 kite.kITE_mismatch_maps(featurebarcodes, './t2g_path.t2g', './fasta_path.fa')
 ```
 
-Feature Barcode processing is similar to processing transcripts except instead of looking for transcript fragments of length `k` (the `k-mer` length) in the reads, a "mismatch" index is used to search the raw reads for the Feature Barcode whitelist and mismatch sequences. Please refer to the kallisto documentation for more information on the kallisto | bustools workflow. 
-https://www.kallistobus.tools/documentation
+Feature Barcode processing is similar to processing transcripts except instead of looking for transcript fragments of length `k` (the `k-mer` length) in the reads, a "mismatch" index is used to search the raw reads for the Feature Barcode whitelist and mismatch sequences. Please refer to the [kallisto documentation](https://www.kallistobus.tools/documentation) for more information on the kallisto | bustools workflow. 
 
 Because Feature Barcodes are typically designed to be robust to some sequencing errors, each Feature Barcode and its mismatches are unique across an experiment, thus each Feature Barcode equivalence class has a one-to-one correspondence to a member of the Feature Barcode whitelist. This is reflected in the t2g file, where each mismatch Feature Barcode points to a unique parent Feature Barcode from the whitelist, analogous to the relationship between genes and transcripts in the case of cDNA processing. 
 
