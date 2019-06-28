@@ -55,12 +55,14 @@ The notebook [kite_citeseq_SRR8281307](https://github.com/pachterlab/kite/blob/m
 The following is an abbreviated walk-through.  
 
 First, navigate to a new directory and download the required 10x files including the Feature Barcode whitelist, the 10x 3M-cell barcode whitelist, and the raw fastqs from both lanes used in this experiment. See notebook for example. 
+```
 ./pbmc_1k_protein_v3_feature_ref.csv
 ./3M-february-2018.txt
 ./pbmc_1k_protein_v3_antibody_S2_L001_R1_001.fastq.gz
 ./pbmc_1k_protein_v3_antibody_S2_L001_R2_001.fastq.gz
 ./pbmc_1k_protein_v3_antibody_S2_L002_R1_001.fastq.gz
 ./pbmc_1k_protein_v3_antibody_S2_L002_R2_001.fastq.gz
+```
 
 We start with a Python dictionary containing Feature Barcode names and Feature Barcode sequences as key:value pairs. 
 ```
