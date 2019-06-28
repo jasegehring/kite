@@ -27,7 +27,7 @@ Clone the GitHub repo and use pip to install the kite package
 This wrapper function is the easiest way to use `kite`. "Mismatch" t2g and fasta files are saved and can be used by kallisto | bustools to complete pre-processing(see below and Vignettes).
 
 FeatureDict: a Python dictionary with Feature Barcode name : Feature Barcode sequence as key:value pairs
-mismatch_t2g_path: filepath for a new "mismatch" t2g file 
+mismatch_t2g_path: filepath for a new "mismatch" t2g file
 mismatch_fasta_path: filepath for a new "mismatch" fasta file
 
 returns mismatch t2g and fasta files to the specified directories
