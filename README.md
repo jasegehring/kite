@@ -54,7 +54,7 @@ The notebook [10x_kiteVignette](https://github.com/jgehringUCB/kite/tree/master/
 
 The following is an abbreviated walk-through.  
 
-First, navigate to a new directory and download the required 10x files including the Feature Barcode whitelist, the 10x 3M-cell barcode whitelist, and the raw fastqs from both lanes used in this experiment. See notebook for example. 
+First, navigate to a new directory and download the required 10x files including the Feature Barcode whitelist reference, the 10x 3M-february-2018 barcode whitelist, and the raw fastqs from both lanes used in this experiment. See notebook for example. 
 ```
 ./pbmc_1k_protein_v3_feature_ref.csv
 ./3M-february-2018.txt
@@ -88,7 +88,7 @@ The kite_mismatch_maps function takes the Python dictionary (featurebarcodes) an
 
 ```
 import kite
-kite.kITE_mismatch_maps(featurebarcodes, './t2g_path.t2g', './fasta_path.fa')
+kite.kite_mismatch_maps(featurebarcodes, './t2g_path.t2g', './fasta_path.fa')
 ```
 
 Feature Barcode processing is similar to processing transcripts except instead of looking for transcript fragments of length `k` (the `k-mer` length) in the reads, a "mismatch" index is used to search the raw reads for the Feature Barcode whitelist and mismatch sequences. Please refer to the [kallisto documentation](https://www.kallistobus.tools/documentation) for more information on the kallisto | bustools workflow. 
@@ -145,4 +145,4 @@ We now have a BUS file for this pseudoalignment. The file 3M-february-2018.txt i
 
 ```
 
-`Bustools count` outputs a .mtx-formatted Features x Cells matrix and vectors of gene names and cell barcodes (genes.txt and barcodes.txt). and From here, standard analysis packages like ScanPy and Seurat can be used to continue the Feature Barcode analysis. 
+`Bustools count` outputs a .mtx-formatted Features x Cells matrix and vectors of gene names and cell barcodes (genes.txt and barcodes.txt). From here, standard analysis packages like ScanPy and Seurat can be used to continue the Feature Barcode analysis. 
