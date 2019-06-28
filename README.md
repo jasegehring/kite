@@ -50,7 +50,7 @@ returns mismatch t2g and fasta files to the specified directories
 
 ## Example: 1k PBMCs from a Healthy Donor - Gene Expression and Cell Surface Protein
 
-The notebook [kite_citeseq_SRR8281307](https://github.com/pachterlab/kite/blob/master/docs/kite_citeseq_SRR8281307.ipynb) in the `docs` folder demonstrates a complete analysis for a 10x dataset collected on 730 peripheral blood mononuclear cells (PBMCs) labeled with 17 unique Feature Barcoded antibodies. The dataset can be found here: https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_1k_protein_v3
+The notebook [10x_kiteVignette](https://github.com/jgehringUCB/kite/docs/Vignettes/10x_kiteVignette.ipynb) in the `docs` folder demonstrates a complete analysis for a 10x dataset collected on 730 peripheral blood mononuclear cells (PBMCs) labeled with 17 unique Feature Barcoded antibodies. The dataset can be found here: https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_1k_protein_v3
 
 The following is an abbreviated walk-through.  
 
