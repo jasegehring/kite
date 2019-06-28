@@ -102,7 +102,7 @@ CD3_TotalSeqB-0-1	CD3_TotalSeqB	CD3_TotalSeqB
 CD3_TotalSeqB-0-2	CD3_TotalSeqB	CD3_TotalSeqB
 CD3_TotalSeqB-0-3	CD3_TotalSeqB	CD3_TotalSeqB
 
-!head -8 fasta_path.fa
+!head -8 ./fasta_path.fa
 >CD3_TotalSeqB
 AACAAGACCCTTGAG
 >CD3_TotalSeqB-0-1
